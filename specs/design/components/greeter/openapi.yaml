@@ -38,17 +38,8 @@ components:
           description: The greeting text, e.g. "Hello, World!"
     Error:
       type: object
-      required: [code, message]
+      required: [error]
       properties:
-        code:
-          type: integer
-          description: HTTP or application error code
-        message:
+        error:
           type: string
-          description: short human-readable label
-        description:
-          type: string
-          description: detailed explanation
-        moreInfo:
-          type: string
-          description: URI to documentation
+          description: short human-readable error message (per app-factory-kaj/e2e-reference conventions)
