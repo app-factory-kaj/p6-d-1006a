@@ -2,7 +2,7 @@
 
 ## Problem Statement
 
-Teams building and testing services on this platform need a minimal, predictable HTTP service to exercise against — for smoke-testing pipelines, onboarding new engineers to platform conventions, and serving as a reference implementation. Today there is no small, canonical example service they can point tooling at, so each team improvises its own throwaway stub.
+Teams building and testing services on this platform need a minimal, predictable HTTP service to exercise against — for smoke-testing pipelines, onboarding new engineers to platform conventions, and serving as a reference implementation. Today there is no small, canonical example service they can point tooling at, so each team improvises its own throwaway stub. E2E marker p6d1006a.
 
 ## Solution
 
