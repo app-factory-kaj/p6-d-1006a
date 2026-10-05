@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-05T00:00:00Z",
+  "commit": "95c968c9380881c8b79f6a46a1f6268d0a2af9fa",
+  "baseUrl": "http://development-default.openchoreoapis.localhost:19080/p6-d-1006a-greeter-http",
+  "isolation": "stateless GET endpoint with no persisted data; each scenario asserts only on the response to its own request",
+  "scenarios": [
+    {
+      "feature": "Greeting",
+      "featureFile": "specs/validation/acceptance/greeting.feature",
+      "line": 6,
+      "rule": "Requesting a greeting for a name returns a greeting addressed to that name",
+      "scenario": "Greeting a named caller",
+      "tags": ["@story-1"],
+      "outcome": "passed",
+      "steps": [
+        { "text": "the greeter service is running", "keyword": "Given",
+          "command": "curl -s -o /dev/null -w \"%{http_code}\" http://development-default.openchoreoapis.localhost:19080/p6-d-1006a-greeter-http/hello",
+          "exit": 0, "observed": "200" },
+        { "text": "an API Consumer calls GET /hello with name \"Ada\"", "keyword": "When",
+          "command": "curl -s -w \"\\nHTTP_STATUS:%{http_code}\" \"http://development-default.openchoreoapis.localhost:19080/p6-d-1006a-greeter-http/hello?name=Ada\"",
+          "exit": 0, "observed": "{\"message\":\"Hello, Ada!\",\"name\":\"Ada\"}\nHTTP_STATUS:200" },
+        { "text": "the response is a greeting addressed to \"Ada\"", "keyword": "Then",
+          "command": "curl -s \"http://development-default.openchoreoapis.localhost:19080/p6-d-1006a-greeter-http/hello?name=Ada\" | jq -r .message",
+          "exit": 0, "observed": "Hello, Ada!" }
+      ],
+      "evidence": {
+        "network": [{ "method": "GET", "url": "/hello?name=Ada", "status": 200 }]
+      }
+    },
+    {
+      "feature": "Greeting",
+      "featureFile": "specs/validation/acceptance/greeting.feature",
+      "line": 14,
+      "rule": "Requesting a greeting without a name returns a default greeting instead of an error",
+      "scenario": "Greeting with no name supplied",
+      "tags": ["@story-2"],
+      "outcome": "passed",
+      "steps": [
+        { "text": "the greeter service is running", "keyword": "Given",
+          "command": "curl -s -o /dev/null -w \"%{http_code}\" http://development-default.openchoreoapis.localhost:19080/p6-d-1006a-greeter-http/hello",
+          "exit": 0, "observed": "200" },
+        { "text": "an API Consumer calls GET /hello with no name", "keyword": "When",
+          "command": "curl -s -w \"\\nHTTP_STATUS:%{http_code}\" \"http://development-default.openchoreoapis.localhost:19080/p6-d-1006a-greeter-http/hello\"",
+          "exit": 0, "observed": "{\"message\":\"Hello, World!\"}\nHTTP_STATUS:200" },
+        { "text": "the response is a default greeting", "keyword": "Then",
+          "command": "curl -s \"http://development-default.openchoreoapis.localhost:19080/p6-d-1006a-greeter-http/hello\" | jq -r .message",
+          "exit": 0, "observed": "Hello, World!" },
+        { "text": "the response is not an error", "keyword": "Then",
+          "command": "curl -s -o /dev/null -w \"%{http_code}\" \"http://development-default.openchoreoapis.localhost:19080/p6-d-1006a-greeter-http/hello\"",
+          "exit": 0, "observed": "200" }
+      ],
+      "evidence": {
+        "network": [{ "method": "GET", "url": "/hello", "status": 200 }]
+      }
+    }
+  ]
+}
